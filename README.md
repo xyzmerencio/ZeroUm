@@ -1,8 +1,8 @@
 # ZeroUm 🇧🇷
 
 ## Um multi-ferramentas para pentest
-Ainda em fase incial, aos serão implementados novos recursos e os já existentes serão melhorados.
-Caso sinta vontade em contribuir com o código e com novas ferramentas entre em contato👇
+Ainda em fase incial, aos poucos serão implementados novos recursos e os já existentes serão melhorados.
+Caso sinta vontade em contribuir com o código e com novas ferramentas entre em contato👉
 [![Outlook](https://img.shields.io/badge/Microsoft_Outlook-0078D4?style=for-the-badge&logo=microsoft-outlook&logoColor=white)]("vitormdluzz2003@outlook.com")
 
 ## Resumo
