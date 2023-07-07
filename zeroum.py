@@ -1,8 +1,10 @@
+from src.webcrawler.webcrawler import crawl_links
 from src.emailfinder.emailfinder import crawl
 from src.revshell.revshell import gerar_rev
 from src.dirbrute.dirbrute import dirbrute
 from src.dnsbrute.dnsbrute import dnsbrute
 from src.portscan.portscan import scan
+from src.bins.bins import bins
 import sys
 
 
@@ -46,6 +48,8 @@ def main():
         * -dns, --dnsbrute      Executa um brute force de subdomínios.
         * -ef, --emails         Busca emails no site específicado.
         * -rev, --reverseshell  Gera uma reverse shell.
+        * -wc, --webcrawler     Busca todos os links no site específicado.
+        * -b, --bins            Formas de explorar o binário específicado.
         """
 
         if len(sys.argv) > 1:
@@ -74,16 +78,27 @@ def main():
                     print("Argumentos faltando. Utilize -dns DOMINIO WORDLIST")
             elif sys.argv[1] == '-ef' or sys.argv[1] == '--emails':
                 url = sys.argv[2] if len(sys.argv) > 2 else None
-                crawl(url)
+                if url:
+                    crawl(url)
+                else:
+                    print("Argumentos faltando. Utilize -ef URL")
+            elif sys.argv[1] == '-wc' or sys.argv[1] == '--webcrawler':
+                url = sys.argv[2] if len(sys.argv) > 2 else None
+                if url:
+                    crawl_links(url)
+                else:
+                    print("Argumentos faltando. Utilize -wc URL")
             elif sys.argv[1] == '-rev' or sys.argv[1] == '--reverseshell':
                 gerar_rev()
+            elif sys.argv[1] == '-b' or sys.argv[1] == '--bins':
+                bins()
             else:
                 print("Opção inválida.")
         else:
             print(help_message)
     
     except Exception as error:
-        print("Ocorreu o seguinte erro:\n\n\nerror")
+        print("Ocorreu o seguinte erro:\n\n\n", error)
     except KeyboardInterrupt:
         print("\n\n\n Tchau :)")
         sys.exit(0)
