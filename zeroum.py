@@ -53,7 +53,9 @@ def main():
         """
 
         if len(sys.argv) > 1:
-            if sys.argv[1] == '-dir' or sys.argv[1] == '--dirbrute':
+            if sys.argv[1] == '-h' or sys.argv[1] == '--help':
+                print(help_message)
+            elif sys.argv[1] == '-dir' or sys.argv[1] == '--dirbrute':
                 url = sys.argv[2] if len(sys.argv) > 2 else None
                 wordlist = sys.argv[3] if len(sys.argv) > 3 else None
                 if url and wordlist:
