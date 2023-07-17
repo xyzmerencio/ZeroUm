@@ -1,15 +1,21 @@
 import socket
 import sys
 import threading
+import time
+
+LIMITE_CONEXOES = 100
+
+semafaro = threading.Semaphore(LIMITE_CONEXOES)
 
 def scan_port(host, porta):
     try:
-        client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        client.settimeout(0.5)
-        code = client.connect_ex((host, porta))
-        if code == 0:
-            print(f"[+] {porta} aberta")
-        client.close()
+        with semafaro:
+            client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            client.settimeout(0.5)
+            code = client.connect_ex((host, porta))
+            if code == 0:
+                print(f"[+] {porta} aberta")
+            client.close()
     except Exception as error:
         print(error)
 
@@ -21,12 +27,7 @@ def scan(host, porta_espec):
         else:
             porta_list = list(map(int, porta_espec.split(',')))
 
-        try:
-            socket.inet_aton(host)
-        except socket.error:
-            ip = socket.gethostbyname(host)
-        else:
-            ip = host
+        ip = socket.gethostbyname(host)
 
         threads = []
         for porta in porta_list:
@@ -36,6 +37,7 @@ def scan(host, porta_espec):
 
         for thread in threads:
             thread.join()
+
     except KeyboardInterrupt:
         print("\n\n\n Tchau :)")
         sys.exit(0)
