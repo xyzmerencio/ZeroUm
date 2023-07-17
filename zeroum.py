@@ -47,6 +47,7 @@ def main():
         Opções:
         * -dir, --dirbrute      Executa um brute force de diretórios.
         * -ssh, --sshbrute      Executa um brute force SSH.
+        * -ftp, --ftpbrute      Executa um brute force FTP.
         * -s, --portscan        Executa um scan de rede.
         * -dns, --dnsbrute      Executa um brute force de subdomínios.
         * -ef, --emails         Busca emails no site específicado.
