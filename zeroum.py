@@ -1,4 +1,5 @@
 from src.webcrawler.webcrawler import crawl_links
+from src.namelister.namelister import namelister
 from src.emailfinder.emailfinder import crawl
 from src.revshell.revshell import gerar_rev
 from src.sshbrute.sshbrute import sshbrute
@@ -57,6 +58,7 @@ def main():
         * -rev, --reverseshell  Gera uma reverse shell.
         * -wc, --webcrawler     Busca todos os links no site específicado.
         * -b, --bins            Formas de explorar o binário específicado.
+        * -nl --namelister      Gera uma lista de nomes com possíveis usuários
         """
 
         if len(sys.argv) > 1:
@@ -117,6 +119,8 @@ def main():
                     print("Argumentos faltando. Utilize -wc URL")
             elif sys.argv[1] == '-rev' or sys.argv[1] == '--reverseshell':
                 gerar_rev()
+            elif sys.argv[1] == '-nl' or sys.argv[1] == '--namelister':
+                namelister()
             elif sys.argv[1] == '-b' or sys.argv[1] == '--bins':
                 bins()
             else:
