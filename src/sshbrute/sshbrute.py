@@ -70,10 +70,10 @@ def sshbrute():
             return True
         except paramiko.AuthenticationException:
             print(f"[*] Acesso negado para {username}:{senha} [*]")
-        except paramiko.SSHException as e:
-            print("Erro na conexão SSH: ", str(e))
-        except paramiko.Exception as e:
-            print("Erro desconhecido: ", str(e))
+        except paramiko.SSHException as error:
+            print("Erro na conexão SSH: ", str(error))
+        # except paramiko.Exception as error:
+        #     print("Erro desconhecido: ", str(error))
         
         return False
 
@@ -90,14 +90,14 @@ def sshbrute():
             senha = sys.argv[i + 1]
             i += 1
         elif sys.argv[i] == '-wp':
-            with open(sys.argv[i + 1], 'r') as arquivo:
+            with open(sys.argv[i + 1], 'r', encoding='utf-8') as arquivo:
                 lista_senhas = arquivo.read().splitlines()
             i += 1
         elif sys.argv[i] == '-u':
             username = sys.argv[i + 1]
             i += 1
         elif sys.argv[i] == '-wu':
-            with open(sys.argv[i + 1], 'r') as arquivo:
+            with open(sys.argv[i + 1], 'r', encoding='utf-8') as arquivo:
                 lista_usuarios = arquivo.read().splitlines()
             i += 1
         elif sys.argv[i] == '-h':

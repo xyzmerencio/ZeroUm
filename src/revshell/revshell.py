@@ -1,4 +1,7 @@
 def gerar_rev():
+    """
+    Gera uma reverse shell com a tecnologia escolhida
+    """
     print("""
     \nReverse shells disponíveis:
             

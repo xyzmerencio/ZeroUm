@@ -40,6 +40,9 @@ print("""
         """)
 
 def main():
+    """
+    Função principal que executa as diferentes funcionalidades do programa com base nos argumentos de linha de comando.
+    """
     try:
         help_message = """
         Uso: python zeroum.py [opção] [argumentos]
@@ -81,7 +84,7 @@ def main():
                 url = sys.argv[2] if len(sys.argv) > 2 else None
                 wordlist = sys.argv[3] if len(sys.argv) > 3 else None
                 if url and wordlist:
-                    with open(wordlist, "r") as file:
+                    with open(wordlist, "r", encoding='utf-8') as file:
                         wordlist = file.readlines()
                     dirbrute(url, wordlist)
                 else:

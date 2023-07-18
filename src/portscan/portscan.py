@@ -1,13 +1,20 @@
 import socket
 import sys
 import threading
-import time
+
 
 LIMITE_CONEXOES = 100
 
 semafaro = threading.Semaphore(LIMITE_CONEXOES)
 
 def scan_port(host, porta):
+    """
+    Verifica se uma determinada porta em um host está aberta.
+
+    Args:
+        host (str): O endereço IP ou nome do host a ser verificado.
+        porta (int): O número da porta a ser verificado.
+    """
     try:
         with semafaro:
             client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -16,10 +23,19 @@ def scan_port(host, porta):
             if code == 0:
                 print(f"[+] {porta} aberta")
             client.close()
-    except Exception as error:
+    except socket.error as error:
         print(error)
 
 def scan(host, porta_espec):
+    """
+    Executa uma varredura de portas em um host específico.
+
+    Args:
+        host (str): O endereço IP ou nome do host a ser varrido.
+        porta_espec (str): A especificação das portas a serem varridas. Pode ser um único número de porta,
+                           uma lista de portas separadas por vírgula ou um intervalo de portas separado por hífen.
+
+    """
     try:
         if '-' in porta_espec:
             primeira_porta, ultima_porta = map(int, porta_espec.split('-'))

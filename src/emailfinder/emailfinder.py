@@ -6,19 +6,25 @@ from fake_useragent import UserAgent
 
 
 def crawl(url):
-    TO_CRAWL = []
-    CRAWLED = set()
+    """
+    Faz uma varredura no site especificado e coleta endereços de e-mail únicos encontrados.
+
+    Args:
+        url (str): O URL do site a ser varrido.
+    """
+    to_crawl = []
+    crawled = set()
     EMAILS = []
 
     def request(url):
         user_agent = UserAgent().random
         header = {"User-Agent": user_agent}
         try:
-            response = requests.get(url, headers=header)
+            response = requests.get(url, headers=header, timeout=10)
             return response.text
         except KeyboardInterrupt:
             sys.exit(0)
-        except:
+        except requests.RequestException:
             pass
 
     def get_links(html):
@@ -32,7 +38,7 @@ def crawl(url):
                     links.append(link)
 
             return links
-        except:
+        except (AttributeError, TypeError):
             pass
 
     def get_emails(html):
@@ -45,17 +51,17 @@ def crawl(url):
         else:
             return email
 
-    TO_CRAWL.append(url)
-    while TO_CRAWL:
-        url = TO_CRAWL.pop()
+    to_crawl.append(url)
+    while to_crawl:
+        url = to_crawl.pop()
 
         html = request(url)
         if html:
             links = get_links(html)
             if links:
                 for link in links:
-                    if link not in CRAWLED and link not in TO_CRAWL:
-                        TO_CRAWL.append(link)
+                    if link not in crawled and link not in to_crawl:
+                        to_crawl.append(link)
 
             emails = get_emails(html)
             for email in emails:
@@ -64,9 +70,9 @@ def crawl(url):
                     print(formatted_email)
                     EMAILS.append(formatted_email)
 
-            CRAWLED.add(url)
+            crawled.add(url)
         else:
-            CRAWLED.add(url)
+            crawled.add(url)
 
     print("Pronto")
 
