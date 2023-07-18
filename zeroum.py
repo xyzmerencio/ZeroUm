@@ -120,7 +120,7 @@ def main():
             elif sys.argv[1] == '-rev' or sys.argv[1] == '--reverseshell':
                 gerar_rev()
             elif sys.argv[1] == '-nl' or sys.argv[1] == '--namelister':
-                namelister()
+                namelister(sys.argv[2])
             elif sys.argv[1] == '-b' or sys.argv[1] == '--bins':
                 bins()
             else:

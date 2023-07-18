@@ -5,13 +5,12 @@ MAIS = '+'
 TRACO = '-'
 TRACO2 = '_'
 combinacoes = []
-WORDLIST_FILE = sys.argv[2]
 
-def namelister():
+def namelister(wordlist_file):
     """
     Gera uma wordlist com possíveis nomes de usuário com base em nomes reais em outra wordlist
     """
-    with open(WORDLIST_FILE, "r", encoding='utf-8') as file:
+    with open(wordlist_file, "r", encoding='utf-8') as file:
         wordlist = [nome.strip() for nome in file.readlines()]
 
     for nome in wordlist:
