@@ -1,5 +1,3 @@
-import sys
-
 PONTO = '.'
 MAIS = '+'
 TRACO = '-'
