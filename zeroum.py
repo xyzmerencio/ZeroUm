@@ -61,77 +61,82 @@ def main():
         * -nl --namelister      Gera uma lista de nomes com possíveis usuários
         """
 
-        if len(sys.argv) > 1:
-            if sys.argv[1] == '-h' or sys.argv[1] == '--help':
-                print(help_message)
-            elif sys.argv[1] == '-ftp' or sys.argv[1] == '--ftpbrute':
-                hostname = sys.argv[2] if len(sys.argv) > 2 else None
-                username = sys.argv[3] if len(sys.argv) > 3 else None
-                password = sys.argv[4] if len(sys.argv) > 4 else None
+        if len(sys.argv) > 1:  # Verifica se foram fornecidos argumentos de linha de comando.
+            if sys.argv[1] == '-h' or sys.argv[1] == '--help':  # Verifica se a opção de ajuda foi selecionada.
+                print(help_message)  # Exibe a mensagem de ajuda.
+            elif sys.argv[1] == '-ftp' or sys.argv[1] == '--ftpbrute':  # Verifica se a opção de brute force FTP foi selecionada.
+                hostname = sys.argv[2] if len(sys.argv) > 2 else None  # Obtém o nome do host FTP.
+                username = sys.argv[3] if len(sys.argv) > 3 else None  # Obtém o nome de usuário.
+                password = sys.argv[4] if len(sys.argv) > 4 else None  # Obtém a senha.
 
-                if hostname and username and password:
-                    ftpbrute()
+                if hostname and username and password:  # Verifica se todos os argumentos necessários foram fornecidos.
+                    ftpbrute()  # Executa o brute force FTP.
                 else:
-                    print("Argumentos faltando. Utilize -ftp -h [hostname] -u [username] -p [senha]")
-            elif sys.argv[1] == '-ssh' or sys.argv[1] == '--sshbrute':
-                hostname = sys.argv[2] if len(sys.argv) > 2 else None
-                username = sys.argv[3] if len(sys.argv) > 3 else None
-                password = sys.argv[4] if len(sys.argv) > 4 else None
+                    print("Argumentos faltando. Utilize -ftp -h [hostname] -u [username] -p [senha]")  # Exibe uma mensagem informando que os argumentos estão faltando.
+            elif sys.argv[1] == '-ssh' or sys.argv[1] == '--sshbrute':  # Verifica se a opção de brute force SSH foi selecionada.
+                hostname = sys.argv[2] if len(sys.argv) > 2 else None  # Obtém o nome do host SSH.
+                username = sys.argv[3] if len(sys.argv) > 3 else None  # Obtém o nome de usuário.
+                password = sys.argv[4] if len(sys.argv) > 4 else None  # Obtém a senha.
 
-                if hostname and username and password:
-                    sshbrute()
+                if hostname and username and password:  # Verifica se todos os argumentos necessários foram fornecidos.
+                    sshbrute()  # Executa o brute force SSH.
                 else:
-                    print("Argumentos faltando. Utilize -ssh -h [hostname] [-u username | -wu wordlist_usuarios] [-p senha | -wp wordlist_senhas]")
-            elif sys.argv[1] == '-dir' or sys.argv[1] == '--dirbrute':
-                url = sys.argv[2] if len(sys.argv) > 2 else None
-                wordlist = sys.argv[3] if len(sys.argv) > 3 else None
-                if url and wordlist:
-                    with open(wordlist, "r", encoding='utf-8') as file:
-                        wordlist = file.readlines()
-                    dirbrute(url, wordlist)
+                    print("Argumentos faltando. Utilize -ssh -h [hostname] [-u username | -wu wordlist_usuarios] [-p senha | -wp wordlist_senhas]")  # Exibe uma mensagem informando que os argumentos estão faltando.
+            elif sys.argv[1] == '-dir' or sys.argv[1] == '--dirbrute':  # Verifica se a opção de brute force de diretórios foi selecionada.
+                url = sys.argv[2] if len(sys.argv) > 2 else None  # Obtém a URL do site a ser varrido.
+                wordlist = sys.argv[3] if len(sys.argv) > 3 else None  # Obtém o caminho para o arquivo de lista de palavras-chave.
+
+                if url and wordlist:  # Verifica se todos os argumentos necessários foram fornecidos.
+                    with open(wordlist, "r", encoding='utf-8') as file:  # Abre o arquivo da lista de palavras-chave para leitura.
+                        wordlist = file.readlines()  # Lê as linhas do arquivo e armazena na variável "wordlist".
+                    dirbrute(url, wordlist)  # Executa o brute force de diretórios.
                 else:
-                    print("Argumentos faltando. Utilize -dir URL WORDLIST")
-            elif sys.argv[1] == '-s' or sys.argv[1] == '--portscan':
-                host = sys.argv[2] if len(sys.argv) > 2 else None
-                porta_espec = sys.argv[3] if len(sys.argv) > 3 else None
-                if host and porta_espec:
-                    scan(host, porta_espec)
+                    print("Argumentos faltando. Utilize -dir URL WORDLIST")  # Exibe uma mensagem informando que os argumentos estão faltando.
+            elif sys.argv[1] == '-s' or sys.argv[1] == '--portscan':  # Verifica se a opção de scan de rede foi selecionada.
+                host = sys.argv[2] if len(sys.argv) > 2 else None  # Obtém o endereço IP do host.
+                porta_espec = sys.argv[3] if len(sys.argv) > 3 else None  # Obtém a porta específica para scan.
+
+                if host and porta_espec:  # Verifica se todos os argumentos necessários foram fornecidos.
+                    scan(host, porta_espec)  # Executa o scan de rede.
                 else:
-                    print("Argumentos faltando. Utilize -s HOST PORTA")
-            elif sys.argv[1] == '-dns' or sys.argv[1] == '--dnsbrute':
-                dominio = sys.argv[2] if len(sys.argv) > 2 else None
-                wordlist = sys.argv[3] if len(sys.argv) > 3 else None
-                if dominio and wordlist:
-                    dnsbrute(dominio, wordlist)
+                    print("Argumentos faltando. Utilize -s HOST PORTA")  # Exibe uma mensagem informando que os argumentos estão faltando.
+            elif sys.argv[1] == '-dns' or sys.argv[1] == '--dnsbrute':  # Verifica se a opção de brute force de subdomínios foi selecionada.
+                dominio = sys.argv[2] if len(sys.argv) > 2 else None  # Obtém o domínio base para a busca.
+                wordlist = sys.argv[3] if len(sys.argv) > 3 else None  # Obtém o caminho para o arquivo de lista de palavras-chave.
+
+                if dominio and wordlist:  # Verifica se todos os argumentos necessários foram fornecidos.
+                    dnsbrute(dominio, wordlist)  # Executa o brute force de subdomínios.
                 else:
-                    print("Argumentos faltando. Utilize -dns DOMINIO WORDLIST")
-            elif sys.argv[1] == '-ef' or sys.argv[1] == '--emails':
-                url = sys.argv[2] if len(sys.argv) > 2 else None
-                if url:
-                    crawl(url)
+                    print("Argumentos faltando. Utilize -dns DOMINIO WORDLIST")  # Exibe uma mensagem informando que os argumentos estão faltando.
+            elif sys.argv[1] == '-ef' or sys.argv[1] == '--emails':  # Verifica se a opção de busca de emails foi selecionada.
+                url = sys.argv[2] if len(sys.argv) > 2 else None  # Obtém o URL do site a ser varrido.
+
+                if url:  # Verifica se o argumento necessário foi fornecido.
+                    crawl(url)  # Executa a busca de emails no site especificado.
                 else:
-                    print("Argumentos faltando. Utilize -ef URL")
-            elif sys.argv[1] == '-wc' or sys.argv[1] == '--webcrawler':
-                url = sys.argv[2] if len(sys.argv) > 2 else None
-                if url:
-                    crawl_links(url)
+                    print("Argumentos faltando. Utilize -ef URL")  # Exibe uma mensagem informando que o argumento está faltando.
+            elif sys.argv[1] == '-wc' or sys.argv[1] == '--webcrawler':  # Verifica se a opção de busca de todos os links foi selecionada.
+                url = sys.argv[2] if len(sys.argv) > 2 else None  # Obtém o URL do site a ser varrido.
+
+                if url:  # Verifica se o argumento necessário foi fornecido.
+                    crawl_links(url)  # Executa a busca de todos os links no site especificado.
                 else:
-                    print("Argumentos faltando. Utilize -wc URL")
-            elif sys.argv[1] == '-rev' or sys.argv[1] == '--reverseshell':
-                gerar_rev()
-            elif sys.argv[1] == '-nl' or sys.argv[1] == '--namelister':
-                namelister(sys.argv[2])
-            elif sys.argv[1] == '-b' or sys.argv[1] == '--bins':
-                bins()
+                    print("Argumentos faltando. Utilize -wc URL")  # Exibe uma mensagem informando que o argumento está faltando.
+            elif sys.argv[1] == '-rev' or sys.argv[1] == '--reverseshell':  # Verifica se a opção de geração de uma reverse shell foi selecionada.
+                gerar_rev()  # Executa a geração da reverse shell.
+            elif sys.argv[1] == '-nl' or sys.argv[1] == '--namelister':  # Verifica se a opção de geração de uma lista de nomes com possíveis usuários foi selecionada.
+                namelister(sys.argv[2])  # Executa a geração da lista de nomes com possíveis usuários.
+            elif sys.argv[1] == '-b' or sys.argv[1] == '--bins':  # Verifica se a opção de formas de explorar um binário foi selecionada.
+                bins()  # Executa a exploração do binário especificado.
             else:
-                print("Opção inválida.")
+                print("Opção inválida.")  # Exibe uma mensagem informando que a opção selecionada é inválida.
         else:
-            print(help_message)
+            print(help_message)  # Exibe a mensagem de ajuda caso não sejam fornecidos argumentos de linha de comando.
     
     except Exception as error:
-        print("Ocorreu o seguinte erro:\n\n\n", error)
+        print("Ocorreu o seguinte erro:\n\n\n", error)  # Exibe uma mensagem informando o erro que ocorreu.
     except KeyboardInterrupt:
-        print("\n\n\n Tchau :)")
-        sys.exit(0)
+        print("\n\n\n Tchau :)")  # Exibe uma mensagem de despedida caso a execução seja interrompida pelo usuário.
+        sys.exit(0)  # Encerra o programa.
 
-main()
+main()  # Chama a função principal para iniciar o programa.

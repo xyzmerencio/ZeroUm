@@ -4,7 +4,11 @@ import select
 import tty
 import termios
 
+
 def sshbrute():
+    """
+    Executa um brute force SSH
+    """
     def obter_atributos_terminal():
         # Salva os atributos do terminal atual
         fd = sys.stdin.fileno()
