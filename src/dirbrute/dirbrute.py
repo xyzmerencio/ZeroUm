@@ -1,7 +1,7 @@
 import sys
+import concurrent.futures
 from requests.exceptions import RequestException
 import requests
-
 
 def dirbrute(url, wordlist):
     """
@@ -11,17 +11,24 @@ def dirbrute(url, wordlist):
         url (str): A URL base para a busca.
         wordlist (list): Uma lista de palavras-chave para a busca.
     """
-    for word in wordlist: # Para cada palavra na wordlist
-        word = word.strip() # Removendo os espaços
-        url_final = f"{url}/{word}" # Pega a URL passada como argumento e acrescenta uma palavra da wordlist
-        response = requests.get(url_final, timeout=5) # Resposta da requisição
-        response = response.status_code # Status code da requisição
+    def check_url(word):
+        # Remove espaços em branco do início e final da palavra
+        word = word.strip()
+        # Cria a URL final acrescentando a palavra da wordlist à URL base
+        url_final = f"{url}/{word}"
         try:
-            requests.get(url_final, timeout=5) # Faz a requisição com a palavra chave da wordlist
-            if response != 404: # Caso o status code seja diferente de 404
-                print(url_final, response) # Exibe a URL encontrada e o código da requisição
+            # Faz a requisição HTTP para a URL formada com a palavra da wordlist
+            response = requests.get(url_final, timeout=5)
+            # Verifica se o status code da resposta não é 404 (não encontrado)
+            if response.status_code != 404:
+                # Se o status code não for 404, imprime a URL encontrada e o status code
+                print(url_final, response.status_code)
         except RequestException as error:
+            # Trata exceções relacionadas a problemas com a requisição (exemplo: timeout, erro de conexão)
             print(error)
-        except KeyboardInterrupt:
-            print("\n\n\n Tchau :)")
-            sys.exit(0)
+
+    # Cria um pool de threads usando o contexto "concurrent.futures.ThreadPoolExecutor()"
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        # Mapeia a função "check_url" para cada palavra da "wordlist"
+        # Isso permite que as requisições sejam feitas em paralelo, utilizando threads
+        executor.map(check_url, wordlist)
