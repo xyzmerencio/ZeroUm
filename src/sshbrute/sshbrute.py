@@ -75,7 +75,8 @@ def sshbrute():
         except paramiko.AuthenticationException:
             print(f"[*] Acesso negado para {username}:{senha} [*]")
         except paramiko.SSHException as error:
-            print("Erro na conexão SSH: ", str(error))
+            # print("Erro na conexão SSH: ", str(error))
+            pass
         # except paramiko.Exception as error:
         #     print("Erro desconhecido: ", str(error))
         
